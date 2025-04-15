@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Appointments</title>
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+        }
+    
+        h2 {
+            color: #005761;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+    
+        th {
+            background-color: #00ADB3;
+            color: white;
+        }
+    
+        .delete-btn {
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+    
+    <link rel = "stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <h2>Appointments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                
+                <th>Descripton</th>
+                <th>Selected Doctor</th>
+            </tr>
+        </thead>
+        <tbody id="appointmentsTableBody"></tbody>
+    </table>
+<a href="Doctors2.html"> ← back </a>
+    <script>
+        // Retrieve appointments from local storage
+        var storedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+        // Get the table body element
+        var tableBody = document.getElementById("appointmentsTableBody");
+
+        // Function to delete an appointment by index
+        function deleteAppointment(index) {
+            storedAppointments.splice(index, 1);
+            localStorage.setItem("appointments", JSON.stringify(storedAppointments));
+            renderAppointments();
+        }
+
+        // Function to render appointments in the table
+        function renderAppointments() {
+            // Clear the existing table
+            tableBody.innerHTML = "";
+
+            // Iterate through appointments and create rows in the table
+            storedAppointments.forEach(function(appointment, index) {
+        
+                var row = tableBody.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                
+                var cell5 = row.insertCell(3);
+                var cell6 = row.insertCell(4);
+
+                cell1.textContent = appointment.patientName;
+                cell2.textContent = appointment.appointmentDate;
+                cell3.textContent = appointment.appointmentTime;
+                cell5.textContent = appointment.description;
+                cell6.textContent = appointment.selectedDoctor;
+
+                // Create a delete button
+                var deleteButton = document.createElement("span");
+                deleteButton.className = "delete-btn";
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = function() {
+                    deleteAppointment(index);
+                };
+
+                
+            });
+        }
+
+        // Initial rendering of appointments
+        renderAppointments();
+    </script>
+</body>
+</html>

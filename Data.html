@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment System</title>
+    <script>
+        function saveAppointment() {
+            // Get form data
+            var patientName = document.getElementById("patient_name").value;
+            var appointmentDate = document.getElementById("appointment_date").value;
+            var appointmentTime = document.getElementById("appointment_time").value;
+
+            // Create an object to represent the appointment
+            var appointment = {
+                patientName: patientName,
+                appointmentDate: appointmentDate,
+                appointmentTime: appointmentTime
+            };
+
+            // Retrieve existing appointments from local storage or initialize an empty array
+            var existingAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+            // Add the new appointment to the array
+            existingAppointments.push(appointment);
+
+            // Save the updated array back to local storage
+            localStorage.setItem("appointments", JSON.stringify(existingAppointments));
+
+            // Optionally, you can redirect to a confirmation page or display a confirmation message
+            alert("Appointment saved successfully!");
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Make an Appointment</h2>
+    <form>
+        <label for="patient_name">Patient Name:</label>
+        <input type="text" id="patient_name" required><br>
+
+        <label for="appointment_date">Appointment Date:</label>
+        <input type="date" id="appointment_date" required><br>
+
+        <label for="appointment_time">Appointment Time:</label>
+        <input type="time" id="appointment_time" required><br>
+
+        <!-- Call the JavaScript function when the form is submitted -->
+        <input type="button" value="Submit" onclick="saveAppointment()">
+    </form>
+<!-- Add this link at the end of your original form in index.html -->
+<a href="display.html">View Appointments</a>
+
+</body>
+</html>
